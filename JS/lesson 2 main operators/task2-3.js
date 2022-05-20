@@ -26,14 +26,11 @@ console.log(getNullComparison(a, b));
  */
 function getNullComparison(a, b) {
     if (a >= 0 && b >= 0) {
-        const dif = a - b;
-        return dif;
+        return a - b;
     } else if (a < 0 && b < 0) {
-        const comp = a * b;
-        return comp;
+        return a * b;
     } else {
-        const sum = a + b;
-        return sum;
+        return a + b;
     }
 }
 
