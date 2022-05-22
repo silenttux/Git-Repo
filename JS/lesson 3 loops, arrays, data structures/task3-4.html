@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    "use strict";
+    let i = 2;
+
+    do {
+        let k = 2;
+        let cl = 0;
+
+        do {
+            if ((i % k === 0) && (k !== i)) {
+                cl = 1;
+                break;
+            } else {
+                k++;
+            }
+        } while (k < i);
+
+        if (cl === 0) {
+            console.log(i++);
+        } else {
+            i++;
+        }
+    } while (i < 101);
+</script>
+</html>
