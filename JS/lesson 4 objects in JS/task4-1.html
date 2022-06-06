@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    "use strict";
+    /*
+1 Написать функцию, преобразующую число в объект. Передавая на вход число в диапазоне [0,
+999],
+мы должны получить на выходе объект, в котором в соответствующих свойствах описаны
+разряды числа:
+- единицы (в свойстве firstDigit)
+- десятки (в свойстве secondDigit)
+- сотни (в свойстве thirdDigit)
+Например, для числа 45 мы должны получить следующий объект:
+```
+{
+firstDigit: 5,
+secondDigit: 4,
+thirdDigit: 0,
+}
+```
+Если число было передано вне [0, 999] диапазона, не целое число или вообще не число,
+необходимо выдать соответствующее сообщение с помощью console.log и вернуть пустой объект.
+     */
+
+
+    /*
+    Решение 1
+
+        const number = 969; //prompt("Введите число для преобразования в объект");
+
+        const obj = {
+            firstDigit: 0, //единицы
+            secondDigit: 0, //десятки
+            thirdDigit: 0, //сотни
+
+            check (num) {
+                if ((Number(num)<0) || (Number(num)>999) || (!Number.isInteger(num))) {
+                    console.log("Ошибка. Необходимо ввести число в диапазоне от 0 до 999 включительно.");
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+
+            takeParameters (num) {
+                num = String(num);
+                const thirdNum = Number(num.substring(3, 2));
+                const secondNum = Number(num.substring(2, 1));
+                const firstNum = Number(num.substring(0, 1));
+                if (num.length === 3) {
+                    this.thirdDigit = firstNum;
+                    this.secondDigit = secondNum;
+                    this.firstDigit = thirdNum;
+                } else if (num.length === 2) {
+                    this.secondDigit = firstNum;
+                    this.firstDigit = secondNum;
+                } else if (num.length === 1) {
+                    this.firstDigit = firstNum;
+                }
+            }
+        };
+
+        if (obj.check(number)) {
+            obj.takeParameters(number);
+            console.log(`сотни: ${obj.thirdDigit} \nдесятки: ${obj.secondDigit} \nединицы: ${obj.firstDigit}`);
+        };
+    */
+
+    //решение 2
+    const obj = {};
+    const num = 239;
+    getParameters(num, obj);
+
+    function getParameters(num, obj) {
+        if ((Number(num) < 0) || (Number(num) > 999) || (!Number.isInteger(num))) {
+            console.log("Ошибка. Необходимо ввести число в диапазоне от 0 до 999 включительно.");
+            return console.log(obj);
+        } else {
+            obj.firstDigit = Math.floor(num % 10);
+            obj.secondDigit = Math.floor(num / 10 % 10);
+            obj.thirdDigit = Math.floor(num / 100 % 10);
+            return console.log(obj);
+        }
+    }
+
+
+</script>
+</html>

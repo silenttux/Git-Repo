@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*
+    5*. Дан массив (создать такой же, с такими же значениями):
+```
+const arr = [
+[2, 4, 6],
+[1, 5, 10],
+[7, 4, 1],
+];
+```
+Задания:
+1 Найти массив, у которого сумма всех чисел максимальна, вывести в console.log
+индекс этого массива.
+2 Получить и вывести в console.log минимальное значение найденное в массиве,
+который мы получили в первом пункте
+     */
+    "use strict";
+
+    const arr = [
+        [2, 4, 6],
+        [1, 5, 10],
+        [7, 4, 1],
+    ];
+    const arrCopy = arr.slice();
+    let indexMax = indexMaxSum (arrCopy);
+    let minValue = getMinValue (arrCopy);
+    console.log(`индекс массива с максимальной суммой чисел - ${indexMax}`);
+    console.log(`минимальное значение массива матрицы - ${minValue}`);
+
+    /**
+     * Функция принимает матрицу, находит и возращает номер массива, сумма элементов которого максимальна
+     * @param arrMaxSum - матрица, которую принимает функция
+     * @returns {number} - номер массива с максимальной суммой элементов
+     */
+    function indexMaxSum (arrMaxSum) {
+        let iLog = 0;
+        for (let i=0, sumLog = 0; i < arrMaxSum.length ; i++) {
+            let sum = arrMaxSum[i].reduce(function (accumulator, currentValue) {
+                return accumulator + currentValue; });
+            if (sum > sumLog) {
+                sumLog = sum;
+                iLog = i;
+            }
+        }
+        return iLog;
+    }
+
+    /**
+     * Функция находит минимальную сумму элементов полученной матрицы и возвращает её
+     * @param arrMinValue - матрица, в которой будем сравнивать суммы элементов массивов
+     * @returns {number} - минимальная сумма массива матрицы
+     */
+    function getMinValue (arrMinValue) {
+        let sumLog = 9999;
+        for (let i=0; i < arrMinValue.length ; i++) {
+            let sum = arrMinValue[i].reduce(function (accumulator, currentValue) {
+                return accumulator + currentValue; });
+            if (sum < sumLog) {
+                sumLog = sum;
+            }
+        }
+        return sumLog;
+    }
+
+</script>
+</html>
