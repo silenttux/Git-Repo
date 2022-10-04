@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    "use strict";
+    /*
+    На базе игры (приняв за пример), созданной на уроке, реализовать игру «Кто хочет стать
+    миллионером?». Т.е. у вас должен быть главный объект содержащий всю логику игры,
+    который будет иметь методы, например метод run, возможно метод init и т.д.
+    В игре должны быть заранее подготовлены список вопросов и ответов (как минимум 5
+    вопросов).
+    Игра должна приветствовать пользователя, после чего задавать вопросы пользователю и
+    предлагать варианты ответов в виде теста, например:
+    Сколько букв в слове "привет":
+    a. Пять.
+    b. Шесть.
+    c. Семь.
+    d. Куда я попал?
+    Проверять правильный вариант выбрал пользователь или нет, необходимо вести счет.
+    По окончании игры, когда было задано 5 вопросов, вы должны сообщить пользователю
+    его счет и предложить сыграть снова.
+    Также должна быть возможность выхода из игры заранее, если пользователю надоело
+    играть.
+     */
+    /**
+     * Массив с объектами вопросов
+     * @type {object[]}
+     */
+    const questions = [
+        {
+            name: '1 * 5 = ',
+            variants: {
+                'a': '1',
+                'b': '3',
+                'c': '5',
+                'd': '7',
+            },
+            correctAnswerIndex: 'c',
+        },
+        {
+            name: '2 * 5 = ',
+            variants: {
+                'a': '2',
+                'b': '5',
+                'c': '8',
+                'd': '10',
+            },
+            correctAnswerIndex: 'd',
+        },
+        {
+            name: '3 * 5 = ',
+            variants: {
+                'a': '8',
+                'b': '10',
+                'c': '15',
+                'd': '35',
+            },
+            correctAnswerIndex: 'c',
+        },
+        {
+            name: '4 * 5 = ',
+            variants: {
+                'a': '20',
+                'b': '45',
+                'c': '9',
+                'd': '40',
+            },
+            correctAnswerIndex: 'a',
+        },
+        {
+            name: '5 * 5 = ',
+            variants: {
+                'a': '5',
+                'b': '25',
+                'c': '55',
+                'd': '10',
+            },
+            correctAnswerIndex: 'b',
+        },
+    ];
+
+
+    /**
+     * Объект игры.
+     * @property {questions} questions Массив с объектами вопросов.
+     * @property {int} scoreCount Счетчик правильных отвветов.
+     * @property {int} questions Индекс текущего вопроса из массива questions.
+     */
+    const game = {
+        questions,
+        scoreCount: null,
+        questionIndex: null,
+
+        /**
+         * Инициализация игры.
+         */
+        init() {
+            this.scoreCount = 0;
+            this.questionIndex = 0;
+        },
+
+        /**
+         * Запуск игры.
+         */
+        run() {
+            this.init();
+            alert("Здравствуйте, добро пожаловать в игру 'Кто хочет стать миллионером'.");
+
+            while (true) {
+                const answer = this.getAnswer();
+
+                if (this.userWantExit(answer)) {
+                    alert("До свидания");
+                    break;
+                }
+
+                if (this.isAnswerCorrect(answer)) {
+                    alert("Это верный ответ!");
+                    this.scoreCount++;
+                } else {
+                    alert("Ошибка!");
+                }
+
+                this.questionIndex++;
+
+                if (this.isGameOver()) {
+                    alert(`Ваш счёт: ${this.scoreCount}.`);
+
+                    if (!confirm("Хотите сыграть ещё одну игру?")) {
+                        break;
+                    }
+                    this.init();
+                }
+            }
+        },
+
+        /**
+         * Получает ответ на вопрос пользователя.
+         * @returns {string} Строка ответа пользователя.
+         */
+        getAnswer() {
+            while (true) {
+                let answer = prompt(this.getCurrentQuestionString());
+
+                if (answer === null) {
+                    alert("Если хотите выйти из игры, наберите 'exit'.");
+                    continue;
+                }
+
+                answer = answer.trim().toLowerCase();
+
+                if (!this.validateAnswer(answer)) {
+                    alert('Необходимо выбрать один из предложенных вариантов ответа');
+                    continue;
+                }
+                return answer;
+            }
+        },
+
+        /**
+         * Возвращает строку с текущим вопросом и вариантами ответов.
+         * @returns {string} Строка с текущим вопросом и вариантами ответов.
+         */
+        getCurrentQuestionString() {
+            const question = this.questions[this.questionIndex];
+
+            let questionString = `Вопрос: ${question.name} \n\nВарианты ответов:\n`;
+            for (const key in question.variants) {
+                if (question.variants.hasOwnProperty(key)) {
+                    questionString += `${key} - ${question.variants[key]}\n`;
+                }
+            }
+
+            return questionString;
+        },
+
+        /**
+         * Проверяем ответ пользователя на корректность ввода.
+         * @param {string} userAnswer ответ пользователя.
+         * @returns {boolean} true, если пользователь ввел корректные данные, иначе false.
+         */
+        validateAnswer(userAnswer) {
+            return ['exit', 'a', 'b', 'c', 'd'].indexOf(userAnswer) !== -1;
+        },
+
+        /**
+         * Проверяет ввёл ли пользователь вместо ответа команду для выхода из игры.
+         * @param {string} userAnswer ответ пользователя.
+         * @returns {boolean} true, если пользователь хотел выйти, иначе false.
+         */
+        userWantExit(userAnswer) {
+            return userAnswer === 'exit';
+        },
+
+        /**
+         * Проверяет является ли ответ, переданный в функцию, верным.
+         * @param {string} userAnswer ответ пользователя.
+         * {boolean} true, если ответ пользователя верный, иначе false.
+         */
+        isAnswerCorrect(userAnswer) {
+            return this.questions[this.questionIndex].correctAnswerIndex === userAnswer;
+        },
+
+        /**
+         * Проверяет закончилась ли игра.
+         * @returns {boolean} true, если было задано 5 вопросов, иначе false.
+         */
+        isGameOver() {
+            return this.questionIndex > 4;
+        },
+
+
+    };
+
+    game.run();
+
+</script>
+</html>
